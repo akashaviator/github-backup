@@ -47,8 +47,14 @@ const BackupForm = () => {
       if (response.data.result === "success") {
         setSuccessMessage(response.data.message);
         setErrorMessage("");
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 2000);
       } else {
         setErrorMessage(response.data.message);
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 2000);
         setSuccessMessage("");
       }
     } catch (error) {
@@ -62,11 +68,9 @@ const BackupForm = () => {
     <Layout style={layoutStyle}>
       <Content style={containerStyle}>
         {successMessage && (
-          <Alert message={successMessage} type="success" showIcon closable />
+          <Alert message={successMessage} type="success" showIcon />
         )}
-        {errorMessage && (
-          <Alert message={errorMessage} type="error" showIcon closable />
-        )}
+        {errorMessage && <Alert message={errorMessage} type="error" showIcon />}
         <Form style={formStyle} onFinish={handleSubmit}>
           <Form.Item
             style={{ margin: "10px" }}
@@ -75,6 +79,7 @@ const BackupForm = () => {
           >
             <Input
               value={repositoryUrl}
+              style={{ width: "350px" }}
               onChange={(event) => setRepositoryUrl(event.target.value)}
             />
           </Form.Item>

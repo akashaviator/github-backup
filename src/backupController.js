@@ -43,11 +43,15 @@ const createBackupJob = async (req, res) => {
         owner: backup.owner,
         repo: backup.repo,
       });
+
       console.log(`Creating backup: ${backup.owner}/${backup.repo}.`);
+
+      if (!fs.existsSync("backups")) fs.mkdirSync("backups");
       const output = fs.createWriteStream(`backups/${backup.repo}.zip`);
       const buffer = Buffer.from(response.data);
       output.write(buffer);
       output.end();
+
       console.log(`${backup.owner}/${backup.repo} backed up.`);
     } catch (error) {
       console.log(error);
